@@ -132,7 +132,7 @@ class Record:
         )
 
     def try_rr(self, q):
-        if q.qtype == QTYPE.ANY or q.qtype == self._rtype:
+        if q.qtype in (QTYPE.ANY, self._rtype):
             return self.as_rr(q.qname)
 
     def as_rr(self, alt_rname):
