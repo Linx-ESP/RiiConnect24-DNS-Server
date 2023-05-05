@@ -5,43 +5,45 @@
 # RiiConnect24 DNS Server v1.2
 # Created by Austin Burk/Sudomemo. Edited by KcrPL and Larsenv.
 
+import json
+import socket
+import sys
 from datetime import datetime
 from time import sleep
 
-from dnslib import DNSLabel, QTYPE, RD, RR
-from dnslib import A, AAAA, CNAME, MX, NS, SOA, TXT
+import requests
+from dnslib import AAAA, CNAME, MX, NS, QTYPE, RD, RR, SOA, TXT, A, DNSLabel
 from dnslib.server import DNSServer
 
-import socket
-import requests
-import json
-import sys
 
 def get_platform():
     platforms = {
-        'linux1' : 'Linux',
-        'linux2' : 'Linux',
-        'darwin' : 'OS X',
-        'win32' : 'Windows'
+        "linux1": "Linux",
+        "linux2": "Linux",
+        "darwin": "OS X",
+        "win32": "Windows",
     }
     if sys.platform not in platforms:
         return sys.platform
 
     return platforms[sys.platform]
 
+
 RIICONNECT24DNSSERVER_VERSION = "1.2"
+
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
+        s.connect(("10.255.255.255", 1))
         IP = s.getsockname()[0]
     except:
-        IP = '127.0.0.1'
+        IP = "127.0.0.1"
     finally:
         s.close()
     return IP
+
 
 EPOCH = datetime(1970, 1, 1)
 SERIAL = int((datetime.utcnow() - EPOCH).total_seconds())
@@ -52,25 +54,36 @@ print("|    RiiConnect24 DNS Server    |")
 print("|          Version " + RIICONNECT24DNSSERVER_VERSION + "          |")
 print("+===============================+\n")
 
-print("Hello! This server will allow you to connect to RiiConnect24 when your Internet Service Provider does not work with custom DNS.")
+print(
+    "Hello! This server will allow you to connect to RiiConnect24 when your Internet Service Provider does not work with custom DNS."
+)
 
-print("This tool will help you avoid error 107304 in the Forecast/News Channel. When you use the DNS on your Wii / DS or with this app, it also enhances the use of services such as Wiimmfi. This tool can also be used as a DNS server for Nintendo DS games.\n")
-
+print(
+    "This tool will help you avoid error 107304 in the Forecast/News Channel. When you use the DNS on your Wii / DS or with this app, it also enhances the use of services such as Wiimmfi. This tool can also be used as a DNS server for Nintendo DS games.\n"
+)
 
 print("#### How To Use ####\n")
-print("The setup process does not differ from what is shown at https://wii.guide/riiconnect24 except for the values to enter in your custom DNS settings.")
-print("First, make sure that your Wii / DS is connected to the same network as this computer.")
+print(
+    "The setup process does not differ from what is shown at https://wii.guide/riiconnect24 except for the values to enter in your custom DNS settings."
+)
+print(
+    "First, make sure that your Wii / DS is connected to the same network as this computer."
+)
 
-print("\nHere are the settings you need to type in on your Wii in the DNS section.:\n")
+print(
+    "\nHere are the settings you need to type in on your Wii in the DNS section.:\n"
+)
 print(":---------------------------:")
-print("  Primary DNS:  ",MY_IP  )
+print("  Primary DNS:  ", MY_IP)
 print("  Secondary DNS: 1.1.1.1")
 print(":---------------------------:")
 
 print("\nAll other settings should match what is shown at the above URL.\n")
 
 print("#### Getting Help ####\n")
-print("Need help? Visit our Discord server https://discord.gg/b4Y7jfD or contact us at support@riiconnect24.net\n")
+print(
+    "Need help? Visit our Discord server https://discord.gg/b4Y7jfD or contact us at support@riiconnect24.net\n"
+)
 
 print("--- Starting up ---")
 
@@ -86,25 +99,43 @@ TYPE_LOOKUP = {
 
 # Can't seem to turn off DNSLogger with a None type so let's just null it out with a dummy function
 
+
 class RiiConnect24DNSLogger(object):
+
     def log_recv(self, handler, data):
         pass
+
     def log_send(self, handler, data):
         pass
+
     def log_request(self, handler, request):
-        print("[DNS] {" + datetime.now().strftime('%H:%M:%S') + "} Received: DNS Request from: " + handler.client_address[0])
+        print("[DNS] {" + datetime.now().strftime("%H:%M:%S") +
+              "} Received: DNS Request from: " + handler.client_address[0])
+
     def log_reply(self, handler, reply):
-        print("[DNS] {" + datetime.now().strftime('%H:%M:%S') + "} Sent    : DNS Response to:  " + handler.client_address[0])
+        print("[DNS] {" + datetime.now().strftime("%H:%M:%S") +
+              "} Sent    : DNS Response to:  " + handler.client_address[0])
+
     def log_error(self, handler, e):
-        logger.error("[INFO] {" + datetime.now().strftime('%H:%M:%S') + "} Invalid DNS request from " + handler.client_address[0])
+        logger.error("[INFO] {" + datetime.now().strftime("%H:%M:%S") +
+                     "} Invalid DNS request from " + handler.client_address[0])
+
     def log_truncated(self, handler, reply):
         pass
+
     def log_data(self, dnsobj):
         pass
 
 
 class Record:
-    def __init__(self, rdata_type, *args, rtype=None, rname=None, ttl=None, **kwargs):
+
+    def __init__(self,
+                 rdata_type,
+                 *args,
+                 rtype=None,
+                 rname=None,
+                 ttl=None,
+                 **kwargs):
         if isinstance(rdata_type, RD):
             # actually an instance, not a type
             self._rtype = TYPE_LOOKUP[rdata_type.__class__]
@@ -113,13 +144,14 @@ class Record:
             self._rtype = TYPE_LOOKUP[rdata_type]
             if rdata_type == SOA and len(args) == 2:
                 # add sensible times to SOA
-                args += ((
-                    SERIAL,  # serial number
-                    60 * 60 * 1,  # refresh
-                    60 * 60 * 3,  # retry
-                    60 * 60 * 24,  # expire
-                    60 * 60 * 1,  # minimum
-                ),)
+                args += (
+                    (
+                        SERIAL,  # serial number
+                        60 * 60 * 1,  # refresh
+                        60 * 60 * 3,  # retry
+                        60 * 60 * 24,  # expire
+                        60 * 60 * 1,  # minimum
+                    ), )
             rdata = rdata_type(*args)
 
         if rtype:
@@ -136,7 +168,9 @@ class Record:
             return self.as_rr(q.qname)
 
     def as_rr(self, alt_rname):
-        return RR(rname=self._rname or alt_rname, rtype=self._rtype, **self.kwargs)
+        return RR(rname=self._rname or alt_rname,
+                  rtype=self._rtype,
+                  **self.kwargs)
 
     def sensible_ttl(self):
         if self._rtype in (QTYPE.NS, QTYPE.SOA):
@@ -149,34 +183,38 @@ class Record:
         return self._rtype == QTYPE.SOA
 
     def __str__(self):
-        return '{} {}'.format(QTYPE[self._rtype], self.kwargs)
+        return "{} {}".format(QTYPE[self._rtype], self.kwargs)
 
 
 ZONES = {}
 
 try:
-  get_zones = requests.get("https://raw.githubusercontent.com/RiiConnect24/DNS-Server/master/dns_zones.json")
+    get_zones = requests.get(
+        "https://raw.githubusercontent.com/RiiConnect24/DNS-Server/master/dns_zones.json"
+    )
 except requests.exceptions.Timeout:
-  print("[ERROR] Couldn't load DNS data: connection to GitHub timed out.")
-  print("[ERROR] Are you connected to the Internet?")
+    print("[ERROR] Couldn't load DNS data: connection to GitHub timed out.")
+    print("[ERROR] Are you connected to the Internet?")
 except requests.exceptions.RequestException as e:
-  print("[ERROR] Couldn't load DNS data.")
-  print("[ERROR] Exception: ",e)
-  sys.exit(1)
+    print("[ERROR] Couldn't load DNS data.")
+    print("[ERROR] Exception: ", e)
+    sys.exit(1)
 try:
-  zones = json.loads(get_zones.text)
+    zones = json.loads(get_zones.text)
 except ValueError as e:
-  print("[ERROR] Couldn't load DNS data: invalid response from server")
+    print("[ERROR] Couldn't load DNS data: invalid response from server")
 
 for zone in zones:
-  if zone["type"] == "a":
-    ZONES[zone["name"]] = [ Record(A, zone["value"]) ]
-  elif zone["type"] == "p":
-    ZONES[zone["name"]] = [ Record(A, socket.gethostbyname(zone["value"])) ]
+    if zone["type"] == "a":
+        ZONES[zone["name"]] = [Record(A, zone["value"])]
+    elif zone["type"] == "p":
+        ZONES[zone["name"]] = [Record(A, socket.gethostbyname(zone["value"]))]
 
 print("[INFO] DNS information has been downloaded successfully.")
 
+
 class Resolver:
+
     def __init__(self):
         self.zones = {DNSLabel(k): v for k, v in ZONES.items()}
 
@@ -204,9 +242,23 @@ class Resolver:
                         break
             if not found:
                 if "nintendowifi.net" in str(request.q.qname):
-                    reply.add_answer(RR(str(request.q.qname),QTYPE.A,rdata=A("95.217.77.151"),ttl=60))
+                    reply.add_answer(
+                        RR(
+                            str(request.q.qname),
+                            QTYPE.A,
+                            rdata=A("95.217.77.151"),
+                            ttl=60,
+                        ))
                 else:
-                    reply.add_answer(RR(str(request.q.qname),QTYPE.A,rdata=A(socket.gethostbyname_ex(str(request.q.qname))[2][0]),ttl=60))
+                    reply.add_answer(
+                        RR(
+                            str(request.q.qname),
+                            QTYPE.A,
+                            rdata=A(
+                                socket.gethostbyname_ex(str(
+                                    request.q.qname))[2][0]),
+                            ttl=60,
+                        ))
 
         return reply
 
@@ -214,33 +266,53 @@ class Resolver:
 resolver = Resolver()
 dnsLogger = RiiConnect24DNSLogger()
 
-print("[INFO] Detected operating system:", get_platform());
+print("[INFO] Detected operating system:", get_platform())
 
-if get_platform() == 'linux':
-  print("[INFO] Please note that you will have to run this as root or with permissions to bind to UDP port 53.")
-  print("[INFO] If you aren't seeing any requests, check that this is the case first with lsof -i:53 (requires lsof)")
-  print("[INFO] To run as root, prefix the command with 'sudo'")
-elif get_platform() == 'OS X':
-  print("[INFO] Please note that you will have to run this as root or with permissions to bind to UDP port 53.")
-  print("[INFO] If you aren't seeing any requests, check that this is the case first with lsof -i:53 (requires lsof)")
-  print("[INFO] To run as root, prefix the command with 'sudo'")
-elif get_platform() == 'Windows':
-  print("[INFO] Please note: If you see a notification about firewall, allow the application to work. If you're using 3rd party  firewall on your computer - you may want to - this program to your firewall and allow traffic.")
+if get_platform() == "linux":
+    print(
+        "[INFO] Please note that you will have to run this as root or with permissions to bind to UDP port 53."
+    )
+    print(
+        "[INFO] If you aren't seeing any requests, check that this is the case first with lsof -i:53 (requires lsof)"
+    )
+    print("[INFO] To run as root, prefix the command with 'sudo'")
+elif get_platform() == "OS X":
+    print(
+        "[INFO] Please note that you will have to run this as root or with permissions to bind to UDP port 53."
+    )
+    print(
+        "[INFO] If you aren't seeing any requests, check that this is the case first with lsof -i:53 (requires lsof)"
+    )
+    print("[INFO] To run as root, prefix the command with 'sudo'")
+elif get_platform() == "Windows":
+    print(
+        "[INFO] Please note: If you see a notification about firewall, allow the application to work. If you're using 3rd party  firewall on your computer - you may want to - this program to your firewall and allow traffic."
+    )
 
 try:
-  servers = [
-    DNSServer(resolver=resolver, port=53, address=MY_IP, tcp=True, logger=dnsLogger),
-    DNSServer(resolver=resolver, port=53, address=MY_IP, tcp=False, logger=dnsLogger),
-  ]
+    servers = [
+        DNSServer(resolver=resolver,
+                  port=53,
+                  address=MY_IP,
+                  tcp=True,
+                  logger=dnsLogger),
+        DNSServer(resolver=resolver,
+                  port=53,
+                  address=MY_IP,
+                  tcp=False,
+                  logger=dnsLogger),
+    ]
 except PermissionError:
-  print("[ERROR] Permission error: check that you are running this as Administrator or root")
-  sys.exit(1)
+    print(
+        "[ERROR] Permission error: check that you are running this as Administrator or root"
+    )
+    sys.exit(1)
 
 print("-- Done --- \n")
 print("[INFO] Starting RiiConnect24 DNS server.")
 print("[INFO] Ready. Waiting for your Wii / DS to send DNS Requests...\n")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     for s in servers:
         s.start_thread()
 
