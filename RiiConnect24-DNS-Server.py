@@ -88,9 +88,9 @@ TYPE_LOOKUP = {
 
 class RiiConnect24DNSLogger(object):
     def log_recv(self, handler, data):
-        pass
+        raise NotImplementedError()
     def log_send(self, handler, data):
-        pass
+        raise NotImplementedError()
     def log_request(self, handler, request):
         print("[DNS] {" + datetime.now().strftime('%H:%M:%S') + "} Received: DNS Request from: " + handler.client_address[0])
     def log_reply(self, handler, reply):
@@ -98,9 +98,9 @@ class RiiConnect24DNSLogger(object):
     def log_error(self, handler, e):
         logger.error("[INFO] {" + datetime.now().strftime('%H:%M:%S') + "} Invalid DNS request from " + handler.client_address[0])
     def log_truncated(self, handler, reply):
-        pass
+        raise NotImplementedError()
     def log_data(self, dnsobj):
-        pass
+        raise NotImplementedError()
 
 
 class Record:
