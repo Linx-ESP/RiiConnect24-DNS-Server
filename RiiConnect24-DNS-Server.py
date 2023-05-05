@@ -86,7 +86,7 @@ TYPE_LOOKUP = {
 
 # Can't seem to turn off DNSLogger with a None type so let's just null it out with a dummy function
 
-class RiiConnect24DNSLogger(object):
+class RiiConnect24DNSLogger:
     def log_recv(self, handler, data):
         pass
     def log_send(self, handler, data):
