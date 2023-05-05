@@ -91,11 +91,14 @@ class RiiConnect24DNSLogger(object):
         pass
     def log_send(self, handler, data):
         pass
-    def log_request(self, handler, request):
+    @staticmethod
+    def log_request(handler, request):
         print("[DNS] {" + datetime.now().strftime('%H:%M:%S') + "} Received: DNS Request from: " + handler.client_address[0])
-    def log_reply(self, handler, reply):
+    @staticmethod
+    def log_reply(handler, reply):
         print("[DNS] {" + datetime.now().strftime('%H:%M:%S') + "} Sent    : DNS Response to:  " + handler.client_address[0])
-    def log_error(self, handler, e):
+    @staticmethod
+    def log_error(handler, e):
         logger.error("[INFO] {" + datetime.now().strftime('%H:%M:%S') + "} Invalid DNS request from " + handler.client_address[0])
     def log_truncated(self, handler, reply):
         pass
