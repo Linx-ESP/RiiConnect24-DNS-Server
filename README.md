@@ -1,12 +1,23 @@
-RiiConnect24 DNS Server [![Actions Status](https://github.com/RiiConnect24/DNS-Server/workflows/Build/badge.svg)](https://github.com/RiiConnect24/DNS-Server/actions)
-===
+# FORK
+
+Changes from original:
+
+- Updated domains using WiiLink DNS (December 2024). DNS_ZONES.JSON IS NOT UP TO DATE.
+- Added shell script to query the WiiLink DNS and output in hosts format.
+- Added rewrite list formatted for Adguard Home (add it to blacklists).
+- Removed "mariokartwii.race.gs.wiimfi.de" because you can use any public DNS server.
+- Removed "nplus.prod.silverbirchstudios.com" as it isn't resolved neither in public DNS servers nor WiiLinks.
+
+# Original README
+
+# RiiConnect24 DNS Server [![Actions Status](https://github.com/RiiConnect24/DNS-Server/workflows/Build/badge.svg)](https://github.com/RiiConnect24/DNS-Server/actions)
 
 This DNS Server will run locally on your computer and allow your Wii to connect to RiiConnect24 servers even if your ISP blocks connections to our DNS Server. When you use the DNS on your Wii or with this app, it also enhances the use of services such as Wiimmfi. This tool can also be used as a DNS server for Nintendo DS games.
 
 ## Setup
 
 Setup process is the same as shown on our guide
-https://wii.guide/riiconnect24 
+https://wii.guide/riiconnect24
 
 You will only need to change DNS Settings in your Wii.
 
@@ -32,7 +43,7 @@ Replace `python3` with the name/path to your Python binary if necessary
 
 # How to use it?
 
-After starting the program, it will download the current list of the DNS Addresses to forward and will run. 
+After starting the program, it will download the current list of the DNS Addresses to forward and will run.
 
 On screen, you will see the IP Address assigned to your computer by the DHCP Server on your NAT (router).
 
@@ -43,14 +54,15 @@ If your Wii is connected to the same network as your PC, it will be able to conn
 <i>My local IP Address, yours will be different.</i>
 </p>
 
-
 # Compiling on Windows
 
 To compile this app on Windows, you will need to run these two commands (Important: Pyinstaller currently fails to build with Python 3.8, use Python 3.7.5):
->pip install dnslib requests pyinstaller
+
+> pip install dnslib requests pyinstaller
 
 Once it's done installing, run:
->pyinstaller RiiConnect24-DNS-Server.spec
+
+> pyinstaller RiiConnect24-DNS-Server.spec
 
 | Tip: You may need to edit RiiConnect24-DNS-Server_v1.0.spec so the compiling process works on your computer.
 
@@ -61,7 +73,9 @@ On the server running Pi-hole, run the following command:
 ```bash
 curl https://raw.githubusercontent.com/RiiConnect24/DNS-Server/master/dns_zones-hosts.txt >> /etc/pihole/custom.list
 ```
+
 RiiConnect24 domains will be listed on Pi-hole webpage menu under "Local DNS Records".
 
 # Need more help?
+
 You can talk to us over on the [RiiConnect24 Discord server](https://discord.gg/b4Y7jfD), where people can try and help you out!
