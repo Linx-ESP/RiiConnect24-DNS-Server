@@ -1,0 +1,7 @@
+# You MUST name the client on Adguard Home as "ogxbox" 
+# Removing this seems like breaking every xbox live connection, including modern Xbox and Windows
+
+||macs.xboxlive.com^$client=ogxbox,dnsrewrite=NOERROR;CNAME;macs.insig.uk
+||as.xboxlive.com^$client=ogxbox,dnsrewrite=NOERROR;CNAME;as.insig.uk
+||tgs.xboxlive.com^$client=ogxbox,dnsrewrite=NOERROR;CNAME;tgs.insig.uk
+||xds.xboxlive.com^$client=ogxbox,dnsrewrite=NOERROR;CNAME;xexds.insig.uk
