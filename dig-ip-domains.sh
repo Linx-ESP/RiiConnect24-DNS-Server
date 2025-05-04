@@ -70,8 +70,7 @@ do
   echo "Digging IP for $domain..."
   ip=$(dig +short $domain @$dns_server)
   echo "$ip $domain" >> $output_file_hosts
-# Doesn't properly escape the dollar sign, must manually fix the file afterwards.
-  echo "||$domain^$dnsrewrite=NOERROR;A;$ip" >> $output_file_adguard
+  echo "||$domain^\$dnsrewrite=NOERROR;A;$ip" >> $output_file_adguard
 done
 
 echo "Complete"
