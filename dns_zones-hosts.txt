@@ -47,3 +47,15 @@
 95.217.77.151 natneg5.gs.nintendowifi.net
 95.217.77.151 natneg6.gs.nintendowifi.net
 95.217.77.181 master.gs.nintendowifi.net
+34.75.107.68 dnas.playstation.org
+151.80.238.101 kddi-mmbb.jp
+151.80.238.99 corsair.capcom.co.jp
+151.80.238.99 skyhawk.capcom.co.jp
+151.80.238.99 viper.capcom.co.jp
+151.80.238.99 crusader.capcom.co.jp
+151.80.238.99 raptor.capcom.co.jp
+151.80.238.99 strike-raptor.capcom.co.jp
+151.80.238.104 goshawk.capcom.co.jp
+151.80.238.104 spector.capcom.co.jp
+151.80.238.104 meteor.capcom.co.jp
+151.80.238.104 voodoo.capcom.co.jp

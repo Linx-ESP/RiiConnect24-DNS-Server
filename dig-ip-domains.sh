@@ -1,9 +1,7 @@
 #!/bin/bash
 
-dns_server="167.235.229.36" # WiiLink DNS Server
-
-output_file_hosts="dns_zones-hosts.txt"
-output_file_adguard="adguardhome-dnsrewrite.txt"
+# WiiLink DNS Server and domains (previously RiiConnect24)
+dns_server="167.235.229.36" 
 
 domains=(
 "flipnote.hatena.com"
@@ -55,16 +53,38 @@ domains=(
 "natneg5.gs.nintendowifi.net"
 "natneg6.gs.nintendowifi.net"
 "master.gs.nintendowifi.net"
-    )
+)
+
+# Monster Hunter Old School
+dns_server2="34.75.107.68"
+
+domains2=(
+ "dnas.playstation.org"
+ "kddi-mmbb.jp"
+ "corsair.capcom.co.jp"
+ "skyhawk.capcom.co.jp"
+ "viper.capcom.co.jp"
+ "crusader.capcom.co.jp"
+ "raptor.capcom.co.jp"
+ "strike-raptor.capcom.co.jp"
+ "goshawk.capcom.co.jp"
+ "spector.capcom.co.jp"
+ "meteor.capcom.co.jp"
+ "voodoo.capcom.co.jp"
+)
 
 
+output_file_hosts="dns_zones-hosts.txt"
+output_file_adguard="adguardhome-dnsrewrite.txt"
 
-# Clear the output file if it exists
+# Clear the output files if they exist
 > $output_file_hosts
 > $output_file_adguard
+
 # It won't give a clean output if a domain answers multiple IPs. Doesn't handle errors.
 # This must not output any IPv6 addresses. It shouldn't though.
 
+echo "Processing first list of domains with DNS server: $dns_server"
 for domain in "${domains[@]}"
 do
   echo "Digging IP for $domain..."
@@ -73,4 +93,15 @@ do
   echo "||$domain^\$dnsrewrite=NOERROR;A;$ip" >> $output_file_adguard
 done
 
+echo ""
+echo "Processing second list of domains with DNS server: $dns_server2"
+for domain in "${domains2[@]}"
+do
+  echo "Digging IP for $domain..."
+  ip=$(dig +short $domain @$dns_server2)
+  echo "$ip $domain" >> $output_file_hosts
+  echo "||$domain^\$dnsrewrite=NOERROR;A;$ip" >> $output_file_adguard
+done
+
+echo ""
 echo "Complete"

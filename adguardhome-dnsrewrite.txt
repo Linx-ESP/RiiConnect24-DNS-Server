@@ -1,3 +1,4 @@
+# WiiLink (previously RiiConnect24)
 ||flipnote.hatena.com^$dnsrewrite=NOERROR;A;178.62.43.212
 ||maintenance.hatena.ne.jp^$dnsrewrite=NOERROR;A;178.62.43.212
 ||nas.nintendowifi.net^$dnsrewrite=NOERROR;A;178.62.43.212
@@ -46,3 +47,17 @@
 ||natneg4.gs.nintendowifi.net^$dnsrewrite=NOERROR;A;95.217.77.151
 ||natneg5.gs.nintendowifi.net^$dnsrewrite=NOERROR;A;95.217.77.151
 ||natneg6.gs.nintendowifi.net^$dnsrewrite=NOERROR;A;95.217.77.151
+||master.gs.nintendowifi.net^$dnsrewrite=NOERROR;A;95.217.77.181
+# Monster Hunter Old School
+||*.dnas.playstation.org^$dnsrewrite=NOERROR;A;34.75.107.68
+||*.kddi-mmbb.jp^$dnsrewrite=NOERROR;A;151.80.238.101
+||corsair.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.99
+||skyhawk.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.99
+||viper.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.99
+||crusader.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.99
+||raptor.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.99
+||strike-raptor.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.99
+||goshawk.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.104
+||spector.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.104
+||meteor.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.104
+||voodoo.capcom.co.jp^$dnsrewrite=NOERROR;A;151.80.238.104
