@@ -3,11 +3,11 @@
 Changes from original:
 
 - No executables, just the lists.
-- Updated domains using WiiLink DNS (Last check October 2025, not that it changes)
+- Updated domains using WiiLink DNS (Last check April 2026, not that it changes often if at all)
 - Added shell script to query the WiiLink DNS and output in hosts format.
   - Recommended: Adblock-style ```adguardhome-dnsrewrite.txt```
   - Alternative: hosts format ```dns_zones-hosts.txt```
-  - For rewrites to work: DNS Settings > Blocking mode > Default. This way uses the given IP to rewrite.
+  - For rewrites to work in Adguard Home: DNS Settings > Blocking mode > Default. This way uses the given IP to rewrite.
 - Removed "mariokartwii.race.gs.wiimfi.de" because you can use any public DNS server.
 - Removed "nplus.prod.silverbirchstudios.com" as it isn't resolved neither in public DNS servers nor WiiLink's.
 - Added [Insignia for Xbox](https://insignia.live/)
